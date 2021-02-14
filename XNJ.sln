@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XNJ.Server", "XNJ.Server\XNJ.Server.csproj", "{50C9D13F-7C8A-493D-8CD4-B15D6BF26268}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XNJ.Client", "XNJ.Client\XNJ.Client.csproj", "{54A1E66D-BD77-483A-90FF-B6B421C0A928}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{50C9D13F-7C8A-493D-8CD4-B15D6BF26268}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50C9D13F-7C8A-493D-8CD4-B15D6BF26268}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50C9D13F-7C8A-493D-8CD4-B15D6BF26268}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{50C9D13F-7C8A-493D-8CD4-B15D6BF26268}.Release|Any CPU.Build.0 = Release|Any CPU
+		{54A1E66D-BD77-483A-90FF-B6B421C0A928}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54A1E66D-BD77-483A-90FF-B6B421C0A928}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54A1E66D-BD77-483A-90FF-B6B421C0A928}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54A1E66D-BD77-483A-90FF-B6B421C0A928}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
