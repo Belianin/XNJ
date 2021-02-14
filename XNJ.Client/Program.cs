@@ -14,13 +14,13 @@ namespace XNJ.Client
             var client = new XnjClient();
             client.OnMessage += (s, e) =>
             {
-                if (e is PlayerMessage message)
+                if (e is PlayerServerMessage message)
                 {
                     Console.WriteLine(message.Player.X + ":" + message.Player.Y);
                 }
             };
 
-            await client.RunAsync();
+            await client.ListenAsync();
         }
     }
 }

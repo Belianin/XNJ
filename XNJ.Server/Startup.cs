@@ -50,7 +50,7 @@ namespace XNJ
             {
                 i++;
                 Console.WriteLine(i.ToString());
-                var player = new PlayerMessage
+                var player = new PlayerServerMessage
                 {
                     Player = new Player
                     {

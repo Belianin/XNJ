@@ -11,14 +11,14 @@ namespace XNJ.Network
     {
         private readonly ClientWebSocket webSocket;
 
-        public event EventHandler<XnjMessage> OnMessage; 
+        public event EventHandler<XnjServerMessage> OnMessage; 
         
         public XnjClient()
         {
             webSocket = new ClientWebSocket();
         }
 
-        public async Task RunAsync()
+        public async Task ListenAsync()
         {
             await webSocket.ConnectAsync(new Uri("ws://localhost:5001"), CancellationToken.None);
             
@@ -26,12 +26,24 @@ namespace XNJ.Network
             var result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
             while (!result.CloseStatus.HasValue)
             {
-                result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
                 var stringValue = Encoding.UTF8.GetString(new ArraySegment<byte>(buffer, 0, result.Count));
-                var deserialized = JsonConvert.DeserializeObject<XnjMessage>(stringValue, new MessageJsonConverter());
+                var deserialized = JsonConvert.DeserializeObject<XnjServerMessage>(stringValue, new ServerMessageJsonConverter());
                 OnMessage?.Invoke(this, deserialized);
+                
+                result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
             }
+
             await webSocket.CloseAsync(result.CloseStatus.Value, result.CloseStatusDescription, CancellationToken.None);
+        }
+
+        public Task SendAsync(XnjServerMessage message)
+        {
+            if (webSocket.State != WebSocketState.Open)
+                return Task.CompletedTask;
+            
+            var stringValue = JsonConvert.SerializeObject(message);
+            
+            return webSocket.SendAsync(Encoding.UTF8.GetBytes(stringValue), WebSocketMessageType.Text, true, CancellationToken.None);
         }
         
         public void Dispose()
