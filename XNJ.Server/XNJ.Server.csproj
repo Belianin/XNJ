@@ -5,4 +5,8 @@
         <RootNamespace>XNJ</RootNamespace>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\XNJ.Network\XNJ.Network.csproj" />
+    </ItemGroup>
+
 </Project>

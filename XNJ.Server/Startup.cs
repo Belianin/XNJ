@@ -1,7 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.WebSockets;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
@@ -9,6 +12,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json;
+using XNJ.Network;
 
 namespace XNJ
 {
@@ -23,18 +28,11 @@ namespace XNJ
             app.UseWebSockets();
             app.Use(async (context, next) =>
             {
-                if (context.Request.Path == "/ws")
+                if (context.WebSockets.IsWebSocketRequest)
                 {
-                    if (context.WebSockets.IsWebSocketRequest)
+                    using (WebSocket webSocket = await context.WebSockets.AcceptWebSocketAsync())
                     {
-                        using (WebSocket webSocket = await context.WebSockets.AcceptWebSocketAsync())
-                        {
-                            await Echo(context, webSocket);
-                        }
-                    }
-                    else
-                    {
-                        context.Response.StatusCode = 400;
+                        await Echo(context, webSocket);
                     }
                 }
                 else
@@ -46,15 +44,27 @@ namespace XNJ
         
         private async Task Echo(HttpContext context, WebSocket webSocket)
         {
+            var i = 0;
             var buffer = new byte[1024 * 4];
-            WebSocketReceiveResult result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
-            while (!result.CloseStatus.HasValue)
+            while (!webSocket.CloseStatus.HasValue)
             {
-                await webSocket.SendAsync(new ArraySegment<byte>(buffer, 0, result.Count), result.MessageType, result.EndOfMessage, CancellationToken.None);
+                i++;
+                Console.WriteLine(i.ToString());
+                var player = new PlayerMessage
+                {
+                    Player = new Player
+                    {
+                        X = 0,
+                        Y = i
+                    }
+                };
+                var count = JsonConvert.SerializeObject(player);
+                await webSocket.SendAsync(Encoding.UTF8.GetBytes(count), WebSocketMessageType.Text, true, CancellationToken.None);
 
-                result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
+                await Task.Delay(1000);
+                //result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
             }
-            await webSocket.CloseAsync(result.CloseStatus.Value, result.CloseStatusDescription, CancellationToken.None);
+            await webSocket.CloseAsync(webSocket.CloseStatus.Value, webSocket.CloseStatusDescription, CancellationToken.None);
         }
     }
 }

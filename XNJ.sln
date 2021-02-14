@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XNJ.Server", "XNJ.Server\XN
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XNJ.Client", "XNJ.Client\XNJ.Client.csproj", "{54A1E66D-BD77-483A-90FF-B6B421C0A928}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XNJ.Network", "XNJ.Network\XNJ.Network.csproj", "{F1EDEBE4-3B1E-47D1-8B7E-139245BCCFED}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{54A1E66D-BD77-483A-90FF-B6B421C0A928}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{54A1E66D-BD77-483A-90FF-B6B421C0A928}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{54A1E66D-BD77-483A-90FF-B6B421C0A928}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F1EDEBE4-3B1E-47D1-8B7E-139245BCCFED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1EDEBE4-3B1E-47D1-8B7E-139245BCCFED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1EDEBE4-3B1E-47D1-8B7E-139245BCCFED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1EDEBE4-3B1E-47D1-8B7E-139245BCCFED}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
