@@ -1,9 +1,5 @@
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Net.WebSockets;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,7 +7,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using XNJ.Network;
 
@@ -50,15 +45,11 @@ namespace XNJ
             {
                 i++;
                 Console.WriteLine(i.ToString());
-                var player = new PlayerServerMessage
+                var data = new Data
                 {
-                    Player = new Player
-                    {
-                        X = 0,
-                        Y = i
-                    }
+                    Number = i
                 };
-                var count = JsonConvert.SerializeObject(player);
+                var count = JsonConvert.SerializeObject(data);
                 await webSocket.SendAsync(Encoding.UTF8.GetBytes(count), WebSocketMessageType.Text, true, CancellationToken.None);
 
                 await Task.Delay(1000);

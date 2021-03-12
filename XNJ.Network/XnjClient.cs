@@ -11,7 +11,7 @@ namespace XNJ.Network
     {
         private readonly ClientWebSocket webSocket;
 
-        public event EventHandler<XnjServerMessage> OnMessage; 
+        public event EventHandler<Data> OnMessage; 
         
         public XnjClient()
         {
@@ -27,7 +27,7 @@ namespace XNJ.Network
             while (!result.CloseStatus.HasValue)
             {
                 var stringValue = Encoding.UTF8.GetString(new ArraySegment<byte>(buffer, 0, result.Count));
-                var deserialized = JsonConvert.DeserializeObject<XnjServerMessage>(stringValue, new ServerMessageJsonConverter());
+                var deserialized = JsonConvert.DeserializeObject<Data>(stringValue);
                 OnMessage?.Invoke(this, deserialized);
                 
                 result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
@@ -36,7 +36,7 @@ namespace XNJ.Network
             await webSocket.CloseAsync(result.CloseStatus.Value, result.CloseStatusDescription, CancellationToken.None);
         }
 
-        public Task SendAsync(XnjServerMessage message)
+        public Task SendAsync(Data message)
         {
             if (webSocket.State != WebSocketState.Open)
                 return Task.CompletedTask;
